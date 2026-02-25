@@ -30,4 +30,25 @@ class EstudianteController extends Controller
     {
         return view('estudiante.carrito');
     }
+
+    public function ordenDeCompra()
+    {
+        return view('estudiante.orden-de-compra');
+    }
+
+    public function verCurso()
+    {
+
+    }
+
+    public function verModulo()
+    {
+        
+    }
+
+    public function verLeccion()
+    {
+        
+    }
+
 }

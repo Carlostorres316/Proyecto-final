@@ -31,9 +31,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/estudiante/mis-cursos', [EstudianteController::class, 'misCursos'])->name('estudiante.mis-cursos');
 
+    Route::get('/estudiante/mis-cursos/{curso}', [EstudianteController::class, 'verCurso'])->name('estudiante.curso.ver');
+
+    Route::get('/estudiante/mis-cursos/{curso}/modulos/{modulo}', [EstudianteController::class, 'verModulo'])->name('estudiante.modulo.ver');
+
+    Route::get('/estudiante/mis-cursos/{curso}/modulos/{modulo}/lecciones/{leccion}', [EstudianteController::class, 'verLeccion'])->name('estudiante.leccion.ver');
+
+    Route::get('/estudiante/enVivo', [EstudianteController::class, 'vivo'])->name('estudiante.vivo');
+
     Route::get('/estudiante/carrito', [EstudianteController::class, 'carrito'])->name('estudiante.carrito');
     
-    Route::get('/estudiante/enVivo', [EstudianteController::class, 'vivo'])->name('estudiante.vivo');
+    Route::get('/estudiante/orden-de-compra', [EstudianteController::class, 'ordenDeCompra'])->name('estudiante.orden-de-compra');
 
     // Rutas de profesor
     Route::get('/profesor/dashboard', [ProfesorController::class, 'dashboard'])->name('profesor.dashboard');
