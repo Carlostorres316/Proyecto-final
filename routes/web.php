@@ -1,79 +1,61 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfesorCursoController;
+use App\Http\Controllers\ProfesorModuloController;
+use App\Http\Controllers\ProfesorLeccionController;
+use App\Http\Controllers\AdminUsuarioController;
+use App\Http\Controllers\AdminCursoController;
+use App\Http\Controllers\AdminCategoriaController;
 
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/home', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('home');
 
-// Dashboard principal
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
 
-// Rutas para Estudiantes
-Route::prefix('estudiante')->name('estudiante.')->middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('estudiante.dashboard');
-    })->name('dashboard');
-    
-    Route::get('/cursos', function () {
-        return view('estudiante.cursos');
-    })->name('cursos');
-    
-    Route::get('/mis-cursos', function () {
-        return view('estudiante.mis-cursos');
-    })->name('mis-cursos');
-    
-    Route::get('/carrito', function () {
-        return view('estudiante.carrito');
-    })->name('carrito');
-    
-    Route::get('/curso/{id}', function ($id) {
-        return view('estudiante.ver-curso', ['cursoId' => $id]);
-    })->name('ver-curso');
-});
+    // Rutas de estudiante
+    Route::get('/estudiante/dashboard', [EstudianteController::class, 'dashboard'])->name('estudiante.dashboard');
 
-// Rutas para Profesores
-Route::prefix('profesor')->name('profesor.')->middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('profesor.dashboard');
-    })->name('dashboard');
-    
-    Route::get('/cursos', function () {
-        return view('profesor.cursos');
-    })->name('cursos');
-    
-    Route::get('/crear-curso', function () {
-        return view('profesor.crear-curso');
-    })->name('crear-curso');
-    
-    Route::get('/editar-curso/{id}', function ($id) {
-        return view('profesor.editar-curso', ['cursoId' => $id]);
-    })->name('editar-curso');
-    
-    Route::get('/clases-en-vivo', function () {
-        return view('profesor.clases-vivo');
-    })->name('clases-vivo');
-});
+    Route::get('/estudiante/cursos', [EstudianteController::class, 'cursos'])->name('estudiante.cursos');
 
-// Rutas para Administrador
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/estudiante/mis-cursos', [EstudianteController::class, 'misCursos'])->name('estudiante.mis-cursos');
+
+    Route::get('/estudiante/carrito', [EstudianteController::class, 'carrito'])->name('estudiante.carrito');
     
-    Route::get('/usuarios', function () {
-        return view('admin.usuarios');
-    })->name('usuarios');
+    Route::get('/estudiante/enVivo', [EstudianteController::class, 'vivo'])->name('estudiante.vivo');
+
+    // Rutas de profesor
+    Route::get('/profesor/dashboard', [ProfesorController::class, 'dashboard'])->name('profesor.dashboard');
+
+    Route::get('/profesor/enVivo', [ProfesorController::class, 'vivo'])->name('profesor.enVivo');
+
+    Route::get('/profesor/analiticas', [ProfesorController::class, 'analiticas'])->name('profesor.analiticas');
     
-    Route::get('/cursos', function () {
-        return view('admin.cursos');
-    })->name('cursos');
+    //Profesor aqui el route resource para el crud me daba problemas en la signacion de nombres .index asique busque para solucionarlo y encontre esta forma de hacerlo.  
+    Route::resource('/profesor/cursos', ProfesorCursoController::class)->names('profesor.cursos');
     
-    Route::get('/reportes', function () {
-        return view('admin.reportes');
-    })->name('reportes');
+    //Profesor busque y lo mejor es usar rutas anidades para los modulos y lecciones ya que cada modulo pertenece a un curso y cada leccion a un modulo.
+    Route::resource('/profesor/cursos/{curso}/modulos', ProfesorModuloController::class)->names('profesor.modulos');
+
+    Route::resource('/profesor/modulos/{modulo}/lecciones', ProfesorLeccionController::class)->names('profesor.lecciones');
+
+    // Rutas de administrador
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
+
+    Route::resource('/admin/usuarios', AdminUsuarioController::class);
+    Route::resource('/admin/cursos', AdminCursoController::class);
+    Route::resource('/admin/categorias', AdminCategoriaController::class);    
 });

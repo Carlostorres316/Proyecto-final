@@ -34,6 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <!-- Menú dinámico según rol -->
                         @auth
                             @if(auth()->user()->rol == 'estudiante')
                                 <li class="nav-item">
@@ -48,7 +49,12 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('estudiante.mis-cursos') }}">
-                                        <i class="bi bi-collection-play"></i> Mis Cursos
+                                        <i class="bi bi-backpack2"></i> Mis Cursos
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('estudiante.vivo') }}">
+                                        <i class="bi bi-collection-play"></i> En vivo
                                     </a>
                                 </li>
                             @elseif(auth()->user()->rol == 'profesor')
@@ -58,13 +64,18 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profesor.cursos') }}">
+                                    <a class="nav-link" href="{{ route('profesor.cursos.index') }}">
                                         <i class="bi bi-journal-bookmark-fill"></i> Mis Cursos
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profesor.clases-vivo') }}">
+                                    <a class="nav-link" href="{{ route('profesor.enVivo') }}">
                                         <i class="bi bi-camera-video"></i> Clases en Vivo
+                                    </a>
+                                </li>
+                                    <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('profesor.analiticas') }}">
+                                        <i class="bi bi-bar-chart"></i> Analíticas
                                     </a>
                                 </li>
                             @elseif(auth()->user()->rol == 'admin')
@@ -93,8 +104,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
+                    <ul class="navbar-nav ms-auto align-items-center">
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -108,6 +118,14 @@
                                 </li>
                             @endif
                         @else
+                            @if(auth()->user()->rol == 'estudiante')
+                                <li class="nav-item me-3">
+                                    <a class="nav-link position-relative" href="{{ route('estudiante.carrito') }}">
+                                        <i class="bi bi-cart4 fs-5"></i>
+                                    </a>
+                                </li>
+                            @endif
+                            
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="bi bi-person-circle"></i>
