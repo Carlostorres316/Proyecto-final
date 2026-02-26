@@ -47,8 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profesor/dashboard', [ProfesorController::class, 'dashboard'])->name('profesor.dashboard');
 
     Route::get('/profesor/enVivo', [ProfesorController::class, 'vivo'])->name('profesor.enVivo');
-
-    Route::get('/profesor/analiticas', [ProfesorController::class, 'analiticas'])->name('profesor.analiticas');
     
     //Profesor aqui el route resource para el crud me daba problemas en la signacion de nombres .index asique busque para solucionarlo y encontre esta forma de hacerlo.  
     Route::resource('/profesor/cursos', ProfesorCursoController::class)->names('profesor.cursos');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfesorCursoController extends Controller
 {
@@ -11,8 +12,8 @@ class ProfesorCursoController extends Controller
      */
     public function index()
     {   
-        $cursos = Curso::where('user_id', auth()->id)->get();
-        return view('profesor.cursos')->with('cursos', $cursos);
+        $cursos = Curso::where('user_id', Auth::id())->get();
+        return view('profesor.cursos.index')->with('cursos', $cursos);
     }
 
     /**
@@ -20,7 +21,7 @@ class ProfesorCursoController extends Controller
      */ 
     public function create()
     {
-        return view('profesor.crear_curso');
+        return view('profesor.cursos.crear_curso');
     }
 
     /**
@@ -33,10 +34,11 @@ class ProfesorCursoController extends Controller
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
             'nivel' => 'required|in:principiante,intermedio,avanzado',
+            'subcategoria_id' => 'required|exists:subcategorias,id',
         ]);
 
         Curso::create([
-            'user_id' => auth()->id,
+            'user_id' => Auth::id(),
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
@@ -52,16 +54,18 @@ class ProfesorCursoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cursos=Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        return view('profesor.cursos.ver_curso')->with('curso', $cursos);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        $cursos= Curso::where('id', $id)->where('user_id', auth()->id)->firstOrFail();
-        return view('profesor.editar_curso')->with('curso', $cursos);
+    {   
+        //Profesor el firstOrFail para asegurarnos de que el curso existe y pertenece al profesor autenticado sino lanzará una 404
+        $cursos= Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        return view('profesor.cursos.editar_curso')->with('curso', $cursos);
     }
 
     /**
@@ -69,12 +73,13 @@ class ProfesorCursoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $cursos = Curso::where('id', $id)->where('user_id', auth()->id)->firstOrFail();
+        $cursos = Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
             'nivel' => 'required|in:principiante,intermedio,avanzado',
+            'subcategoria_id' => 'required|exists:subcategorias,id',
         ]);
 
         $cursos->update($request->all());
@@ -87,7 +92,7 @@ class ProfesorCursoController extends Controller
      */
     public function destroy(string $id)
     {
-        $cursos = Curso::where('id', $id)->where('user_id', auth()->id)->firstOrFail();
+        $cursos = Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $cursos->delete();
 
         return redirect()->route('profesor.cursos')->with('Curso eliminado exitosamente');

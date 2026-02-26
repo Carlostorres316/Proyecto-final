@@ -28,6 +28,11 @@ class Curso extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function subcategoria()
+    {
+        return $this->belongsTo(Subcategorias::class);
+    }
+
     public function modulos()
     {
         return $this->hasMany(Modulo::class);

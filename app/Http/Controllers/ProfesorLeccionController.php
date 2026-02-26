@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Modulo;
@@ -14,7 +13,7 @@ class ProfesorLeccionController extends Controller
     public function index(Modulo $modulos)
     {
         $lecciones = $modulos->lecciones;
-        return view('profesor.lecciones')->with('lecciones', $lecciones);
+        return view('profesor.lecciones.index')->with('lecciones', $lecciones);
     }
 
     /**
@@ -22,7 +21,7 @@ class ProfesorLeccionController extends Controller
      */
     public function create(Modulo $modulos)
     {
-        return view('profesor.crear_leccion')->with('modulos', $modulos);
+        return view('profesor.lecciones.crear_leccion')->with('modulos', $modulos);
     }
 
     /**
@@ -45,7 +44,7 @@ class ProfesorLeccionController extends Controller
             'fecha_programada' => $request->fecha_programada,
         ]);
 
-        return redirect()->route('profesor.lecciones', $modulos)->with('Alamacenado','Lección creada exitosamente');
+        return redirect()->route('profesor.cursos.lecciones', $modulos)->with('Alamacenado','Lección creada exitosamente');
     }
 
     /**
@@ -53,7 +52,8 @@ class ProfesorLeccionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $lecciones = Leccion::findOrFail($id);
+        return view('profesor.lecciones.ver_leccion')->with('leccion', $lecciones);
     }
 
     /**
@@ -61,7 +61,7 @@ class ProfesorLeccionController extends Controller
      */
     public function edit(string $id, Modulo $modulos, Leccion $lecciones)
     {
-        return view('profesor.editar_leccion')->with('leccion', $lecciones)->with('modulos', $modulos);
+        return view('profesor.lecciones.editar_leccion')->with('leccion', $lecciones)->with('modulos', $modulos);
     }
   
 
