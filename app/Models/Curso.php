@@ -11,6 +11,7 @@ class Curso extends Model
 
     protected $fillable = [
         'user_id',
+        'subcategoria_id',
         'titulo',
         'descripcion',
         'precio',

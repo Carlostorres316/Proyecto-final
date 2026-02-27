@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Curso;
+use App\Models\Subcategorias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,8 +22,9 @@ class ProfesorCursoController extends Controller
      * Show the form for creating a new resource.
      */ 
     public function create()
-    {
-        return view('profesor.cursos.crear_curso');
+    {   
+        $subcategorias = Subcategorias::with('categoria')->get();
+        return view('profesor.cursos.crear_curso')->with('subcategorias', $subcategorias);
     }
 
     /**
@@ -39,6 +42,7 @@ class ProfesorCursoController extends Controller
 
         Curso::create([
             'user_id' => Auth::id(),
+            'subcategoria_id' => $request->subcategoria_id,
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
@@ -46,7 +50,7 @@ class ProfesorCursoController extends Controller
             'fecha_creacion' => now(),
         ]);
 
-        return redirect()->route('profesor.cursos')->with('Alamacenado','Curso creado exitosamente');
+        return redirect()->route('profesor.cursos.index')->with('Alamacenado','Curso creado exitosamente');
     }
 
     /**
@@ -65,6 +69,7 @@ class ProfesorCursoController extends Controller
     {   
         //Profesor el firstOrFail para asegurarnos de que el curso existe y pertenece al profesor autenticado sino lanzará una 404
         $cursos= Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        
         return view('profesor.cursos.editar_curso')->with('curso', $cursos);
     }
 

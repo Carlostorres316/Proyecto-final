@@ -64,7 +64,7 @@ class ProfesorModuloController extends Controller
     public function edit(string $id,curso $cursos, Modulo $modulos)
     {   
         Curso::where('id', $cursos->id)->where('user_id', Auth::id())->firstOrFail();
-        return view('profesor.modulos.meditarModulo')->with('modulo', $modulos)->with('cursos', $cursos);
+        return view('profesor.modulos.editar_modulo')->with('modulo', $modulos)->with('cursos', $cursos);
     }   
 
     /**
