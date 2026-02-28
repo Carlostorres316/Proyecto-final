@@ -9,16 +9,15 @@ class Leccion extends Model
 {
     use HasFactory;
 
+    // Profesor aqui el nombre de la tabla es lecciones, pero por alguna razon laravel no lo reconoce asi que tuve que especificarlo manualmente.
+    protected $table = 'lecciones';
+
     protected $fillable = [
         'modulo_id',
         'titulo',
         'tipo',
-        'url_contenido',
-        'fecha_programada',
-    ];
-
-    protected $casts = [
-        'fecha_programada' => 'datetime',
+        'contenido',
+        'url_video',
     ];
 
     public function modulo()

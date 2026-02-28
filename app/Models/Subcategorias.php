@@ -15,6 +15,7 @@ class Subcategorias extends Model
         'descripcion',
     ];
 
+    //Relaciones
     public function categoria()
     {
         return $this->belongsTo(Categorias::class, 'categoria_id');

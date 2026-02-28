@@ -2,88 +2,74 @@
 
 @section('title', 'Crear Lección')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/profesor.css') }}">
-@endpush
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            {{-- Header --}}
             <nav aria-label="breadcrumb" class="mb-4">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('profesor.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('profesor.cursos.index') }}" class="text-decoration-none">Mis Cursos</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('profesor.modulos.index', $modulos->curso) }}" class="text-decoration-none">{{ $modulos->curso->titulo }}</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('profesor.lecciones.index', $modulos) }}" class="text-decoration-none">{{ $modulos->titulo }}</a></li>
-                    <li class="breadcrumb-item active">Nueva Lección</li>
+                <ol class="breadcrumb breadcrumb-modern">
+                    <li class="breadcrumb-item"><a href="{{ route('profesor.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('profesor.cursos.index') }}">Mis Cursos</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('profesor.modulos.index', $modulo->curso) }}">{{ $modulo->curso->titulo }}</a></li>
+                    <li class="breadcrumb-item active">Crear Lección en: {{ $modulo->titulo }}</li>
                 </ol>
             </nav>
 
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold" style="color: var(--profesor-primary);">
+                <h2 class="fw-bold" style="color: var(--primary-color);">
                     <i class="bi bi-plus-circle me-2"></i>
-                    Crear Nueva Lección
+                    Crear lección para: {{ $modulo->titulo }}
                 </h2>
-                <a href="{{ route('profesor.lecciones.index', $modulos) }}" class="btn-outline-profesor">
+                <a href="{{ route('profesor.modulos.index', $modulo->curso) }}" class="btn-outline-modern">
                     <i class="bi bi-arrow-left"></i>
-                    Volver
+                    Volver a Módulos
                 </a>
             </div>
 
-            {{-- Formulario --}}
             <div class="form-card">
-                <form action="{{ route('profesor.lecciones.store', $modulos) }}" method="POST">
+                <form action="{{ route('profesor.lecciones.store', $modulo) }}" method="POST">
                     @csrf
-
+                    {{--Formulario para crear una nueva lección, se envía al método store del controlador de lecciones, se pasan el módulo para asociar la lección a ese módulo--}}
                     <div class="mb-3">
-                        <label for="titulo" class="form-label">Título de la Lección</label>
-                        <input type="text" class="form-control @error('titulo') is-invalid @enderror" 
-                               id="titulo" name="titulo" value="{{ old('titulo') }}" required>
+                        <label class="form-label fw-bold">Título</label>
+                        <input type="text" name="titulo" class="form-control @error('titulo') is-invalid @enderror" value="{{ old('titulo') }}" required>
                         @error('titulo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="tipo" class="form-label">Tipo de Lección</label>
-                        <select class="form-select @error('tipo') is-invalid @enderror" id="tipo" name="tipo" required>
-                            <option value="">Selecciona el tipo</option>
-                            <option value="video" {{ old('tipo') == 'video' ? 'selected' : '' }}>Video</option>
-                            <option value="texto" {{ old('tipo') == 'texto' ? 'selected' : '' }}>Texto</option>
-                            <option value="quiz" {{ old('tipo') == 'quiz' ? 'selected' : '' }}>Quiz</option>
+                        <label class="form-label fw-bold">Tipo</label>
+                        <select name="tipo" id="tipoSelect" class="form-select @error('tipo') is-invalid @enderror" required>
+                            <option value="material">Material</option>
+                            <option value="pregunta">Pregunta</option>
+                            <option value="video">Video</option>
                         </select>
                         @error('tipo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="url_contenido" class="form-label">URL del Contenido (opcional)</label>
-                        <input type="url" class="form-control @error('url_contenido') is-invalid @enderror" 
-                               id="url_contenido" name="url_contenido" value="{{ old('url_contenido') }}"
-                               placeholder="https://www.youtube.com/watch?v=...">
-                        <small class="text-muted">Para videos de YouTube, Vimeo, etc.</small>
-                        @error('url_contenido')
+                    <div class="mb-3" id="contenidoDiv">
+                        <label class="form-label fw-bold">Contenido</label>
+                        <textarea name="contenido" class="form-control @error('contenido') is-invalid @enderror" rows="4">{{ old('contenido') }}</textarea>
+                        @error('contenido')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label for="fecha_programada" class="form-label">Fecha de Publicación</label>
-                        <input type="date" class="form-control @error('fecha_programada') is-invalid @enderror" 
-                               id="fecha_programada" name="fecha_programada" 
-                               value="{{ old('fecha_programada', now()->format('Y-m-d')) }}" required>
-                        @error('fecha_programada')
+                    <div class="mb-3 d-none" id="videoDiv">
+                        <label class="form-label fw-bold">URL del Video</label>
+                        <input type="url" name="url_video" class="form-control @error('url_video') is-invalid @enderror" value="{{ old('url_video') }}" placeholder="https://www.youtube.com/watch?v=...">
+                        @error('url_video')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn-profesor">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn-primary-modern py-2">
                             <i class="bi bi-save me-2"></i>
-                            Crear Lección
+                            Guardar Lección
                         </button>
                     </div>
                 </form>
@@ -92,3 +78,9 @@
     </div>
 </div>
 @endsection
+
+{{--Este script se encarga de mostrar u ocultar los campos de contenido y URL de video según el tipo de lección seleccionado--}}
+{{-- La directiva @push('scripts') permite agregar este script al final del body--}}
+@push('scripts')
+    <script src="{{ asset('js/crear_leccion.js') }}"></script>
+@endpush

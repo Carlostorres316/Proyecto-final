@@ -24,6 +24,7 @@ class Curso extends Model
         'precio' => 'decimal:2',
     ];
 
+    //Relaciones con otros modelos
     public function profesor()
     {
         return $this->belongsTo(User::class, 'user_id');

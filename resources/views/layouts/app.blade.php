@@ -14,18 +14,21 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
     <!-- Estilos adicionales -->
     @stack('styles')
+    
+    
 </head>
 <body>
     <div id="app">
         {{-- Navbar principal con lógica de roles --}}
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand fw-bold" href="{{ url('/') }}" style="color: var(--primary-color);">
                     <i class="bi bi-mortarboard-fill me-2"></i>
                     LearnYourway
                 </a>
@@ -37,10 +40,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        {{-- Se muestran diferentes enlaces en el navbar según el rol del usuario autenticado --}}
                         @auth
-                            {{-- Logica para mostrar menús según rol --}}
                             @if(auth()->user()->rol == 'profesor')
-                                {{-- Menú del profesor --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('profesor.dashboard') }}">
                                         <i class="bi bi-grid"></i> Dashboard
@@ -58,7 +60,6 @@
                                 </li>
 
                             @elseif(auth()->user()->rol == 'estudiante')
-                                {{-- Menú del estudiante --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('estudiante.dashboard') }}">
                                         <i class="bi bi-grid"></i> Dashboard
@@ -76,7 +77,6 @@
                                 </li>
 
                             @elseif(auth()->user()->rol == 'admin')
-                                {{-- Menú del administrador --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                         <i class="bi bi-grid"></i> Dashboard
@@ -142,4 +142,3 @@
     @stack('scripts')
 </body>
 </html>
-

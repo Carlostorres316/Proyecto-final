@@ -2,21 +2,17 @@
 
 @section('title', 'Mis Cursos')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/profesor.css') }}">
-@endpush
-
 @section('content')
 <div class="container">
     {{-- Header --}}
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="fw-bold" style="color: var(--profesor-primary);">
+                <h2 class="fw-bold" style="color: var(--primary-color);">
                     <i class="bi bi-journals me-2"></i>
                     Mis Cursos
                 </h2>
-                <a href="{{ route('profesor.cursos.create') }}" class="btn-profesor">
+                <a href="{{ route('profesor.cursos.create') }}" class="btn-primary-modern">
                     <i class="bi bi-plus-circle"></i>
                     Nuevo Curso
                 </a>
@@ -48,18 +44,21 @@
                         </div>
                         
                         <div class="curso-footer">
-                            <span class="curso-precio">${{ number_format($curso->precio, 2) }}</span>
+                            @if($curso->precio == 0)
+                                <span class="text-success fw-bold">
+                                    <i class="bi bi-gift"></i> GRATIS
+                                </span>
+                            @else
+                                <span class="curso-precio">S/.{{ number_format($curso->precio, 2) }}</span>
+                            @endif
+                            
                             <div class="btn-group">
-                                <a href="{{ route('profesor.cursos.show', $curso) }}" class="btn btn-sm btn-outline-profesor" title="Ver">
+                                <a href="{{ route('profesor.cursos.show', $curso) }}" class="btn btn-sm btn-outline-modern" title="Ver">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('profesor.cursos.edit', $curso) }}" class="btn btn-sm btn-outline-profesor" title="Editar">
+                                <a href="{{ route('profesor.cursos.edit', $curso) }}" class="btn btn-sm btn-outline-modern" title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-profesor" title="Módulos"
-                                        onclick="window.location='{{ route('profesor.modulos.index', $curso) }}'">
-                                    <i class="bi bi-layers"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -67,12 +66,12 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="profesor-card">
+                <div class="card-modern">
                     <div class="card-body text-center py-5">
                         <i class="bi bi-journal-x" style="font-size: 4rem; color: #cbd5e1;"></i>
                         <h5 class="mt-3">No tienes cursos creados</h5>
                         <p class="text-muted">Comienza creando tu primer curso ahora</p>
-                        <a href="{{ route('profesor.cursos.create') }}" class="btn-profesor mt-2">
+                        <a href="{{ route('profesor.cursos.create') }}" class="btn-primary-modern mt-2">
                             <i class="bi bi-plus-circle me-2"></i>Crear Curso
                         </a>
                     </div>

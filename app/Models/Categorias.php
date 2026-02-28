@@ -13,6 +13,7 @@ class Categorias extends Model
         'descripcion',
     ];
 
+    //Relacion uno a muchos con subcategorias
     public function subcategorias()
     {
         return $this->hasMany(Subcategorias::class);

@@ -17,6 +17,7 @@ class Compra extends Model
         'estado_pago',
     ];
 
+    //Relaciones
     protected $casts = [
         'precio_pagado' => 'decimal:2',
     ];

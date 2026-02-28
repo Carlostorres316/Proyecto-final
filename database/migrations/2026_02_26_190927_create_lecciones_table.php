@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('modulo_id')->constrained('modulos')->onDelete('cascade');
             $table->string('titulo');
-            $table->enum('tipo', ['video', 'texto', 'quiz'])->default('texto');
-            $table->string('url_contenido')->nullable();
-            $table->date('fecha_programada');
+            $table->enum('tipo', ['material', 'pregunta', 'video'])->default('material');
+            $table->text('contenido')->nullable();
+            $table->string('url_video')->nullable();
             $table->timestamps();
         });
     }

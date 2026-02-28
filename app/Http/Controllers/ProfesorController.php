@@ -9,6 +9,7 @@ class ProfesorController extends Controller
 {
     public function dashboard()
     {   
+        // En el dashboard del profesor, se muestran solo los cursos que pertenecen al profesor autenticado usando el user_id para filtrar los cursos.
         $cursos = Curso::where('user_id', Auth::id())->get();
         return view('profesor.dashboard')->with('cursos', $cursos);
     }

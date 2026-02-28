@@ -54,7 +54,8 @@ Route::middleware('auth')->group(function () {
     //Profesor busque y lo mejor es usar rutas anidades para los modulos y lecciones ya que cada modulo pertenece a un curso y cada leccion a un modulo.
     Route::resource('/profesor/cursos/{curso}/modulos', ProfesorModuloController::class)->names('profesor.modulos');
 
-    Route::resource('/profesor/modulos/{modulo}/lecciones', ProfesorLeccionController::class)->names('profesor.lecciones');
+    //Profesor el ->parameters(['lecciones' => 'leccion']) es para que en las rutas de lecciones se use {leccion} en vez de {lecciones} me estaba dando problemas larevel aqui.
+    Route::resource('/profesor/modulos/{modulo}/lecciones', ProfesorLeccionController::class)->names('profesor.lecciones')->parameters(['lecciones' => 'leccion']);
 
     // Rutas de administrador
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

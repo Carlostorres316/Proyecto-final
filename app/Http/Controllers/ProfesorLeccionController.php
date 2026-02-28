@@ -1,94 +1,73 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\Curso;
+
 use App\Models\Modulo;
 use App\Models\Leccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfesorLeccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Modulo $modulos)
+    public function create(Modulo $modulo)
     {
-        $lecciones = $modulos->lecciones;
-        return view('profesor.lecciones.index')->with('lecciones', $lecciones);
+        // Verificar que el módulo pertenece a un curso del profesor
+        $curso = $modulo->curso;
+        if ($curso->user_id != Auth::id()) {
+            echo "No tienes permiso para agregar lecciones a este modulo";
+            abort(404);
+        }
+        
+        return view('profesor.lecciones.crear_leccion')->with('modulo', $modulo);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Modulo $modulos)
+    public function store(Request $request, Modulo $modulo)
     {
-        return view('profesor.lecciones.crear_leccion')->with('modulos', $modulos);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Modulo $modulos)
-    {
+        // Verificar que el módulo pertenece a un curso del profesor
+        $curso = $modulo->curso;
+        if ($curso->user_id != Auth::id()) {
+            echo "No tienes permiso para agregar lecciones a este modulo";
+            abort(403);
+        }
+        
         $request->validate([
             'titulo' => 'required|string|max:255',
-            'tipo'=>'required|in:video,texto,quiz',
-            'url_contenido' => 'nullable|string',
-            'fecha_programada' => 'required|date',
+            'tipo' => 'required|in:material,pregunta,video',
+            'contenido' => 'nullable|string',
+            'url_video' => 'nullable|string',
         ]);
 
         Leccion::create([
-            'modulo_id' => $modulos->id,
+            'modulo_id' => $modulo->id,
             'titulo' => $request->titulo,
             'tipo' => $request->tipo,
-            'url_contenido' => $request->url_contenido,
-            'fecha_programada' => $request->fecha_programada,
+            'contenido' => $request->contenido,
+            'url_video' => $request->url_video,
         ]);
 
-        return redirect()->route('profesor.cursos.lecciones', $modulos)->with('Alamacenado','Lección creada exitosamente');
+        return redirect()->route('profesor.modulos.index', $modulo->curso) ->with('almacenado', 'Leccion creada exitosamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Modulo $modulo, Leccion $leccion)
     {
-        $lecciones = Leccion::findOrFail($id);
-        return view('profesor.lecciones.ver_leccion')->with('leccion', $lecciones);
+        // Verificar que la lección pertenece al módulo y el módulo al profesor
+        if ($modulo->id != $leccion->modulo_id || $modulo->curso->user_id != Auth::id()) {
+            echo "No tienes permiso para ver esta lección";
+            abort(404);
+        }
+        
+        return view('profesor.lecciones.ver_leccion')->with('leccion', $leccion)->with('modulo', $modulo);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id, Modulo $modulos, Leccion $lecciones)
+    public function destroy(Modulo $modulo, Leccion $leccion)
     {
-        return view('profesor.lecciones.editar_leccion')->with('leccion', $lecciones)->with('modulos', $modulos);
-    }
-  
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id,Modulo $modulos, Leccion $lecciones)
-    {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'tipo'=>'required|in:video,texto,quiz',
-            'url_contenido' => 'nullable|string',
-            'fecha_programada' => 'required|date',
-        ]);
-
-        $lecciones->update($request->all());
-
-        return redirect()->route('profesor.lecciones', $modulos)->with('Creado','Lección actualizada exitosamente');
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id, Modulo $modulos, Leccion $lecciones)
-    {
-        $lecciones->delete();
-        return redirect()->route('profesor.lecciones', $modulos)->with('Eliminado','Lección eliminada exitosamente');
+        // Verificar que la lección pertenece al módulo y el módulo al profesor
+        if ($modulo->curso->user_id != Auth::id() || $modulo->id != $leccion->modulo_id) {
+            echo "No tienes permiso para eliminar esta lección";
+            abort(403);
+        }
+        
+        $leccion->delete();
+        
+        return redirect()->route('profesor.modulos.index', $modulo->curso)->with('eliminado', 'Leccion eliminada exitosamente');
     }
 }

@@ -16,6 +16,7 @@ class Modulo extends Model
         'orden',
     ];
 
+    //Relaciones
     public function curso()
     {
         return $this->belongsTo(Curso::class);
