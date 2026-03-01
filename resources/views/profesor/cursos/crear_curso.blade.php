@@ -6,7 +6,6 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            {{-- Encabezado --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold" style="color: var(--primary-color);">
                     <i class="bi bi-plus-circle me-2"></i> Crear Nuevo Curso

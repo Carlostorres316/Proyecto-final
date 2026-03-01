@@ -26,7 +26,7 @@ class ProfesorLeccionController extends Controller
         $curso = $modulo->curso;
         if ($curso->user_id != Auth::id()) {
             echo "No tienes permiso para agregar lecciones a este modulo";
-            abort(403);
+            abort(404);
         }
         
         $request->validate([
@@ -63,7 +63,7 @@ class ProfesorLeccionController extends Controller
         // Verificar que la lección pertenece al módulo y el módulo al profesor
         if ($modulo->curso->user_id != Auth::id() || $modulo->id != $leccion->modulo_id) {
             echo "No tienes permiso para eliminar esta lección";
-            abort(403);
+            abort(404);
         }
         
         $leccion->delete();

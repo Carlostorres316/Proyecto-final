@@ -124,4 +124,13 @@ class ProfesorCursoController extends Controller
 
         return redirect()->route('profesor.cursos.index')->with('Curso eliminado exitosamente');
     }
+
+    public function estudiantes($id)
+    {
+        $curso = Curso::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        $compras = $curso->compras()->with('estudiante')->get();
+
+        return view('profesor.cursos.estudiantes')->with('curso', $curso)>with('compras', $compras);
+    }
 }

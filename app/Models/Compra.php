@@ -24,7 +24,7 @@ class Compra extends Model
 
     public function estudiante()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function curso()

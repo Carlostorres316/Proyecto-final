@@ -21,7 +21,21 @@
     <!-- Estilos adicionales -->
     @stack('styles')
     
-    
+    <style>
+        .cart-notification {
+            animation: cartPulse 0.5s ease-in-out;
+        }
+        
+        @keyframes cartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); color: var(--primary-color); }
+            100% { transform: scale(1); }
+        }
+        
+        .cart-badge {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -76,6 +90,12 @@
                                     </a>
                                 </li>
 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('estudiante.enVivo') }}">
+                                        <i class="bi bi-camera-reels"></i> En Vivo
+                                    </a>
+                                </li>
+
                             @elseif(auth()->user()->rol == 'admin')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
@@ -103,6 +123,25 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        @auth
+                            @if(auth()->user()->rol == 'estudiante')
+                                <!-- Icono de carrito para estudiantes -->
+                                <li class="nav-item me-2" id="cart-icon-container">
+                                    <a class="nav-link position-relative" href="{{ route('estudiante.carrito') }}" id="cart-link">
+                                        <i class="bi bi-cart3 fs-5" id="cart-icon"></i>
+                                        @php
+                                            $carrito = session('carrito', []);
+                                            $cantidad = count($carrito);
+                                        @endphp
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cart-count" style="font-size: 0.7rem; {{ $cantidad == 0 ? 'display: none;' : '' }}">
+                                            {{ $cantidad }}
+                                            <span class="visually-hidden">items en carrito</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+                        @endauth
+
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">Login</a>

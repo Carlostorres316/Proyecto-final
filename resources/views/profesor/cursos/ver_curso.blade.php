@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="container">
-    {{-- Header --}}
     <div class="row mb-4">
         <div class="col-12">
             <nav aria-label="breadcrumb">

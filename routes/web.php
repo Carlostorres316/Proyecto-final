@@ -27,34 +27,42 @@ Route::middleware('auth')->group(function () {
     // Rutas de estudiante
     Route::get('/estudiante/dashboard', [EstudianteController::class, 'dashboard'])->name('estudiante.dashboard');
 
-    Route::get('/estudiante/cursos', [EstudianteController::class, 'cursos'])->name('estudiante.cursos');
+    Route::get('/estudiante/cursos', [EstudianteController::class, 'catalogo'])->name('estudiante.cursos'); 
 
     Route::get('/estudiante/mis-cursos', [EstudianteController::class, 'misCursos'])->name('estudiante.mis-cursos');
 
     Route::get('/estudiante/mis-cursos/{curso}', [EstudianteController::class, 'verCurso'])->name('estudiante.curso.ver');
 
+    //Profesor busque y es mejor las rutas anidadas para ver los modulos y lecciones de un curso comprado
     Route::get('/estudiante/mis-cursos/{curso}/modulos/{modulo}', [EstudianteController::class, 'verModulo'])->name('estudiante.modulo.ver');
 
     Route::get('/estudiante/mis-cursos/{curso}/modulos/{modulo}/lecciones/{leccion}', [EstudianteController::class, 'verLeccion'])->name('estudiante.leccion.ver');
 
-    Route::get('/estudiante/enVivo', [EstudianteController::class, 'vivo'])->name('estudiante.vivo');
+    Route::get('/estudiante/enVivo', [EstudianteController::class, 'vivo'])->name('estudiante.enVivo');
 
+    // Rutas de carrito y compra estudiante
     Route::get('/estudiante/carrito', [EstudianteController::class, 'carrito'])->name('estudiante.carrito');
     
+    Route::post('/estudiante/carrito/agregar/{curso}', [EstudianteController::class, 'agregarCarrito'])->name('estudiante.carrito.agregar');
+    
+    Route::delete('/estudiante/carrito/quitar/{curso}', [EstudianteController::class, 'quitarCarrito'])->name('estudiante.carrito.quitar');
+    
+    Route::post('/estudiante/comprar-curso/{curso}', [EstudianteController::class, 'comprarCurso'])->name('estudiante.comprar-curso');
+
     Route::get('/estudiante/orden-de-compra', [EstudianteController::class, 'ordenDeCompra'])->name('estudiante.orden-de-compra');
+    
+    Route::post('/estudiante/procesar-compra', [EstudianteController::class, 'procesarCompra'])->name('estudiante.procesar-compra');
 
     // Rutas de profesor
     Route::get('/profesor/dashboard', [ProfesorController::class, 'dashboard'])->name('profesor.dashboard');
 
     Route::get('/profesor/enVivo', [ProfesorController::class, 'vivo'])->name('profesor.enVivo');
     
-    //Profesor aqui el route resource para el crud me daba problemas en la signacion de nombres .index asique busque para solucionarlo y encontre esta forma de hacerlo.  
     Route::resource('/profesor/cursos', ProfesorCursoController::class)->names('profesor.cursos');
     
-    //Profesor busque y lo mejor es usar rutas anidades para los modulos y lecciones ya que cada modulo pertenece a un curso y cada leccion a un modulo.
     Route::resource('/profesor/cursos/{curso}/modulos', ProfesorModuloController::class)->names('profesor.modulos');
 
-    //Profesor el ->parameters(['lecciones' => 'leccion']) es para que en las rutas de lecciones se use {leccion} en vez de {lecciones} me estaba dando problemas larevel aqui.
+    //Profesor utilize parameters porque el larevel me estaba dando problemas para encontrar la leccion, ya que el parametro por defecto era lecciones y no leccion
     Route::resource('/profesor/modulos/{modulo}/lecciones', ProfesorLeccionController::class)->names('profesor.lecciones')->parameters(['lecciones' => 'leccion']);
 
     // Rutas de administrador

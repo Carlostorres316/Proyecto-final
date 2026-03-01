@@ -16,7 +16,6 @@
                 </ol>
             </nav>
 
-            {{-- Header --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold" style="color: var(--primary-color);">
                     <i class="bi bi-eye me-2"></i>

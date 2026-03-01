@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
             $table->decimal('precio_pagado', 10, 2);
-            $table->enum('metodo_pago', ['tarjeta', 'paypal', 'transferencia'])->default('tarjeta');
+            $table->enum('metodo_pago', ['tarjeta', 'paypal', 'transferencia','gratis'])->default('tarjeta');
             $table->enum('estado_pago', ['pendiente', 'completado', 'cancelado'])->default('pendiente');
 
             //Un estudiante no puede comprar el mismo curso más de una vez
