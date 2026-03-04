@@ -117,6 +117,12 @@
                                         <i class="bi bi-tags"></i> Categorías
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.reportes') }}">
+                                        <i class="bi-graph-up"></i> Reportes
+                                    </a>
+                                </li>
                             @endif
                         @endauth
                     </ul>

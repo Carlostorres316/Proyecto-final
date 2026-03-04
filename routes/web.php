@@ -70,7 +70,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
 
-    Route::resource('/admin/usuarios', AdminUsuarioController::class);
-    Route::resource('/admin/cursos', AdminCursoController::class);
-    Route::resource('/admin/categorias', AdminCategoriaController::class);    
+    Route::get('admin/usuarios/{usuario}/compras', [AdminUsuarioController::class, 'compras'])->name('admin.usuarios.compras');
+
+    Route::resource('admin/usuarios', AdminUsuarioController::class)->names('admin.usuarios');
+    Route::resource('admin/cursos', AdminCursoController::class)->names('admin.cursos');
+    Route::resource('admin/categorias', AdminCategoriaController::class)->names('admin.categorias');    
 });
