@@ -11,12 +11,12 @@ use App\Http\Controllers\ProfesorLeccionController;
 use App\Http\Controllers\AdminUsuarioController;
 use App\Http\Controllers\AdminCursoController;
 use App\Http\Controllers\AdminCategoriaController;
+use App\Http\Controllers\AdminSubcategoriaController;
+use App\Http\Controllers\WelcomeController;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/home', [DashboardController::class, 'index'])
     ->middleware('auth')
@@ -73,6 +73,10 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/usuarios/{usuario}/compras', [AdminUsuarioController::class, 'compras'])->name('admin.usuarios.compras');
 
     Route::resource('admin/usuarios', AdminUsuarioController::class)->names('admin.usuarios');
+
     Route::resource('admin/cursos', AdminCursoController::class)->names('admin.cursos');
-    Route::resource('admin/categorias', AdminCategoriaController::class)->names('admin.categorias');    
+
+    Route::resource('admin/categorias', AdminCategoriaController::class)->names('admin.categorias');
+    
+    Route::resource('admin/categorias/{categoria}/subcategorias', AdminSubcategoriaController::class)->names('admin.subcategorias');    
 });

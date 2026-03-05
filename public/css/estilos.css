@@ -353,3 +353,29 @@ a.btn-primary-modern {
     padding: 1rem;
     margin-bottom: 1rem;
 }
+
+.btn-primary-modern-light {
+    background: linear-gradient(135deg, #8183f4, #6366f1);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary-modern-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+    color: white;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+/* Versión para botón pequeño */
+.btn-sm.btn-primary-modern-light {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+}

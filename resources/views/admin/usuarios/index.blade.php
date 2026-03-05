@@ -10,7 +10,7 @@
             </a>
         </div>
     </div>
-
+    
     @if(session('success'))
         <div class="alert alert-success alert-modern">
             {{ session('success') }}
@@ -42,7 +42,7 @@
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->email }}</td>
                     <td>
-                        <span class="badge bg-{{ $usuario->rol == 'administrador' ? 'danger' : ($usuario->rol == 'profesor' ? 'warning' : 'info') }}">
+                        <span class="badge bg-{{ $usuario->rol == 'admin' ? 'danger' : ($usuario->rol == 'profesor' ? 'warning' : 'info') }}">
                             {{ ucfirst($usuario->rol) }}
                         </span>
                     </td>

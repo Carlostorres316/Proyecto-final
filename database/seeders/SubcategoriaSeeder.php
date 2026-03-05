@@ -1,10 +1,11 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Subcategorias;
 use App\Models\Categorias;
-use Illuminate\Support\Facades\DB;
 
 class SubcategoriaSeeder extends Seeder
 {
@@ -13,9 +14,10 @@ class SubcategoriaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Aqui obtenemos todas las categorías para poder asignar el ID correcto a cada subcategoría
+        // Obtenemos todas las categorías
         $categorias = Categorias::all()->keyBy('nombre');
 
+        // 1. Desarrollo de Software
         if ($categorias->has('Desarrollo de Software')) {
             $desarrolloSubcategorias = [
                 [
@@ -48,7 +50,6 @@ class SubcategoriaSeeder extends Seeder
                     'nombre' => 'Pruebas de Software',
                     'descripcion' => 'Pruebas de software, automatización, control de calidad, Selenium'
                 ],
-
             ];
 
             foreach ($desarrolloSubcategorias as $subcategoria) {
@@ -56,8 +57,9 @@ class SubcategoriaSeeder extends Seeder
             }
         }
 
+        // 2. Negocios
         if ($categorias->has('Negocios')) {
-            $NegociosSubcategorias = [
+            $negociosSubcategorias = [
                 [
                     'categoria_id' => $categorias['Negocios']->id,
                     'nombre' => 'Emprendimiento',
@@ -90,108 +92,112 @@ class SubcategoriaSeeder extends Seeder
                 ],
             ];
 
-            foreach ($NegociosSubcategorias as $subcategoria) {
+            foreach ($negociosSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }
 
-        if ($categorias->has('Financias e Inversiones')) {
-            $financeSubcategorias = [
+        // 3. Finanzas e Inversiones
+        if ($categorias->has('Finanzas e Inversiones')) {
+            $finanzasSubcategorias = [
                 [
-                    'categoria_id' => $categorias['Financias e Inversiones']->id,
-                    'nombre' => 'Accounting',
+                    'categoria_id' => $categorias['Finanzas e Inversiones']->id,
+                    'nombre' => 'Contabilidad',
                     'descripcion' => 'Contabilidad, libros contables, balances'
                 ],
                 [
-                    'categoria_id' => $categorias['Financias e Inversiones']->id,
-                    'nombre' => 'Cryptocurrency',
+                    'categoria_id' => $categorias['Finanzas e Inversiones']->id,
+                    'nombre' => 'Criptomonedas',
                     'descripcion' => 'Criptomonedas, blockchain, trading'
                 ],
                 [
-                    'categoria_id' => $categorias['Financias e Inversiones']->id,
-                    'nombre' => 'Financias Corporativas',
+                    'categoria_id' => $categorias['Finanzas e Inversiones']->id,
+                    'nombre' => 'Finanzas Corporativas',
                     'descripcion' => 'Finanzas corporativas, análisis financiero'
                 ],
                 [
-                    'categoria_id' => $categorias['Financias e Inversiones']->id,
+                    'categoria_id' => $categorias['Finanzas e Inversiones']->id,
                     'nombre' => 'Inversiones',
                     'descripcion' => 'Inversiones, bolsa, trading, análisis técnico'
                 ],
                 [
-                    'categoria_id' => $categorias['Financias e Inversiones']->id,
+                    'categoria_id' => $categorias['Finanzas e Inversiones']->id,
                     'nombre' => 'Impuestos',
                     'descripcion' => 'Impuestos, declaraciones, planificación fiscal'
                 ],
             ];
 
-            foreach ($financeSubcategorias as $subcategoria) {
+            foreach ($finanzasSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }
 
-        if ($categorias->has('IT & Software')) {
-            $it_Subcategorias = [
+        // 4. IT & Software
+        if ($categorias->has('It & Software')) { 
+            $itSubcategorias = [
                 [
-                    'categoria_id' => $categorias['IT & Software']->id,
+                    'categoria_id' => $categorias['It & Software']->id,
                     'nombre' => 'Redes y Seguridad Informática',
                     'descripcion' => 'Redes, seguridad informática, Cisco, firewall'
                 ],
                 [
-                    'categoria_id' => $categorias['IT & Software']->id,
+                    'categoria_id' => $categorias['It & Software']->id,
                     'nombre' => 'Hardware',
                     'descripcion' => 'Hardware, mantenimiento, ensamblaje'
                 ],
                 [
-                    'categoria_id' => $categorias['IT & Software']->id,
-                    'nombre' => 'SIstemas Operativos',
+                    'categoria_id' => $categorias['It & Software']->id,
+                    'nombre' => 'Sistemas Operativos',
                     'descripcion' => 'Sistemas operativos, Windows, Linux, macOS'
                 ],
                 [
-                    'categoria_id' => $categorias['IT & Software']->id,
+                    'categoria_id' => $categorias['It & Software']->id,
                     'nombre' => 'Cloud Computing',
                     'descripcion' => 'Computación en la nube, AWS, Azure, Google Cloud'
                 ],
             ];
 
-            foreach ($it_Subcategorias as $subcategoria) {
+            foreach ($itSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }
 
-        if ($categorias->has('Productividad y Herramientas Ofimáticas')) {
-            $productividad_Subcategorias = [
+        // 5. Cursos de Productividad 
+        if ($categorias->has('Cursos de Productividad')) {
+            $productividadSubcategorias = [
                 [
-                    'categoria_id' => $categorias['Productividad y Herramientas Ofimáticas']->id,
+                    'categoria_id' => $categorias['Cursos de Productividad']->id,
                     'nombre' => 'Microsoft Excel',
                     'descripcion' => 'Excel, hojas de cálculo, fórmulas, macros'
                 ],
                 [
-                    'categoria_id' => $categorias['Productividad y Herramientas Ofimáticas']->id,
+                    'categoria_id' => $categorias['Cursos de Productividad']->id,
                     'nombre' => 'Microsoft Word',
                     'descripcion' => 'Word, procesamiento de textos, documentos'
                 ],
                 [
-                    'categoria_id' => $categorias['Productividad y Herramientas Ofimáticas']->id,
+                    'categoria_id' => $categorias['Cursos de Productividad']->id,
                     'nombre' => 'Microsoft PowerPoint',
                     'descripcion' => 'PowerPoint, presentaciones, diseño de diapositivas'
                 ],
                 [
-                    'categoria_id' => $categorias['Productividad y Herramientas Ofimáticas']->id,
+                    'categoria_id' => $categorias['Cursos de Productividad']->id,
                     'nombre' => 'Google Workspace',
                     'descripcion' => 'Google Workspace, Gmail, Drive, Docs'
                 ],
                 [
-                    'categoria_id' => $categorias['Productividad y Herramientas Ofimáticas']->id,
+                    'categoria_id' => $categorias['Cursos de Productividad']->id,
                     'nombre' => 'Apple iWork',
                     'descripcion' => 'Pages, Numbers, Keynote'
                 ],
             ];
 
-            foreach ($productividad_Subcategorias as $subcategoria) {
+            foreach ($productividadSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }
 
+        // 6. Desarrollo Personal
         if ($categorias->has('Desarrollo Personal')) {
             $personalSubcategorias = [
                 [
@@ -221,8 +227,9 @@ class SubcategoriaSeeder extends Seeder
             }
         }
 
+        // 7. Diseño
         if ($categorias->has('Diseño')) {
-            $diseñoSubcategorias = [
+            $disenoSubcategorias = [
                 [
                     'categoria_id' => $categorias['Diseño']->id,
                     'nombre' => 'Diseño Gráfico',
@@ -236,7 +243,7 @@ class SubcategoriaSeeder extends Seeder
                 [
                     'categoria_id' => $categorias['Diseño']->id,
                     'nombre' => 'Diseño Web',
-                    'descripcion' => 'Diseño web, responsive Diseño, WordPress'
+                    'descripcion' => 'Diseño web, responsive diseño, WordPress'
                 ],
                 [
                     'categoria_id' => $categorias['Diseño']->id,
@@ -255,11 +262,12 @@ class SubcategoriaSeeder extends Seeder
                 ],
             ];
 
-            foreach ($diseñoSubcategorias as $subcategoria) {
+            foreach ($disenoSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }
 
+        // 8. Marketing
         if ($categorias->has('Marketing')) {
             $marketingSubcategorias = [
                 [
@@ -272,11 +280,15 @@ class SubcategoriaSeeder extends Seeder
                     'nombre' => 'Redes Sociales',
                     'descripcion' => 'Redes sociales, community management'
                 ],
-
                 [
                     'categoria_id' => $categorias['Marketing']->id,
-                    'nombre' => 'Analísta',
+                    'nombre' => 'Analítica Web',
                     'descripcion' => 'Analítica web, Google Analytics, métricas'
+                ],
+                [
+                    'categoria_id' => $categorias['Marketing']->id,
+                    'nombre' => 'SEO y SEM',
+                    'descripcion' => 'Posicionamiento en buscadores, Google Ads'
                 ],
             ];
 
@@ -285,6 +297,7 @@ class SubcategoriaSeeder extends Seeder
             }
         }
 
+        // 9. Salud y Bienestar
         if ($categorias->has('Salud y Bienestar')) {
             $saludSubcategorias = [
                 [
@@ -324,46 +337,47 @@ class SubcategoriaSeeder extends Seeder
             }
         }
 
-        if ($categorias->has('Musica')) {
-            $musicSubcategorias = [
+        // 10. Musica y Producción
+        if ($categorias->has('Musica y Producción')) {
+            $musicaSubcategorias = [
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Producción Musical',
                     'descripcion' => 'Producción musical, Ableton, FL Studio'
                 ],
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Guitarra',
                     'descripcion' => 'Guitarra acústica, eléctrica, española'
                 ],
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Piano',
                     'descripcion' => 'Piano, teclado, teoría musical'
                 ],
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Voz',
                     'descripcion' => 'Canto, técnica vocal, interpretación'
                 ],
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Teoría Musical',
                     'descripcion' => 'Teoría musical, armonía, composición'
                 ],
                 [
-                    'categoria_id' => $categorias['Musica']->id,
+                    'categoria_id' => $categorias['Musica y Producción']->id,
                     'nombre' => 'Batería',
                     'descripcion' => 'Batería, percusión, ritmos'
                 ],
                 [
-                    'categoria_id' => $categorias['Musics']->id,
-                    'nombre' => 'Bass',
+                    'categoria_id' => $categorias['Musica y Producción']->id,
+                    'nombre' => 'Bajo Eléctrico',
                     'descripcion' => 'Bajo eléctrico, técnicas, grooves'
                 ],
             ];
 
-            foreach ($musicSubcategorias as $subcategoria) {
+            foreach ($musicaSubcategorias as $subcategoria) {
                 Subcategorias::create($subcategoria);
             }
         }

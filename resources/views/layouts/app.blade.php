@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilos_welcome.css') }}">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
@@ -160,7 +161,6 @@
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                     <i class="bi bi-person-circle"></i>
                                     {{ Auth::user()->name }}
-                                    <span class="badge bg-secondary ms-2">{{ ucfirst(Auth::user()->rol) }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>

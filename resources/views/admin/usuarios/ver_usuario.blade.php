@@ -28,7 +28,7 @@
             <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Rol</label>
                 <p class="form-control-plaintext">
-                    <span class="badge bg-{{ $usuario->rol == 'administrador' ? 'danger' : ($usuario->rol == 'profesor' ? 'warning' : 'info') }}">
+                    <span class="badge bg-{{ $usuario->rol == 'admin' ? 'danger' : ($usuario->rol == 'profesor' ? 'warning' : 'info') }}">
                         {{ ucfirst($usuario->rol) }}
                     </span>
                 </p>

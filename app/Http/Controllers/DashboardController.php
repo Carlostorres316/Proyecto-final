@@ -1,23 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
-{   
-    // Redirige al usuario a su dashboard correspondiente según su rol
+{
     public function index()
     {
-        $user = Auth::user();
-        
-        if ($user->rol == 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->rol == 'profesor') {
-            return redirect()->route('profesor.dashboard');
-        } else {
-            return redirect()->route('estudiante.dashboard');
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) { 
+            return redirect()->route('welcome');
+        }
+
+        // Redirige según el rol del usuario
+        switch(Auth::user()->rol) { 
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'profesor':
+                return redirect()->route('profesor.dashboard');
+            case 'estudiante':
+                return redirect()->route('estudiante.dashboard');
+            default:
+                return redirect()->route('welcome');
         }
     }
 }
-
